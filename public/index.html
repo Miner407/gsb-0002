@@ -16,6 +16,14 @@
                 <select id="currentUserSelect">
                     <option value="">请选择用户</option>
                 </select>
+                <span class="credit-badge" id="currentCreditBadge" style="display:none;">
+                    <span class="credit-icon">⭐</span>
+                    <span id="currentCreditScore">100</span>分
+                </span>
+                <span class="reservation-notice" id="reservationNotice" style="display:none;">
+                    <span class="reservation-notice-icon">🔔</span>
+                    <span class="reservation-notice-text" id="reservationNoticeText"></span>
+                </span>
                 <button class="btn btn-small btn-outline" id="addUserBtn">+ 新用户</button>
             </div>
         </div>
@@ -28,6 +36,7 @@
                     <option value="">全部状态</option>
                     <option value="available">可借用</option>
                     <option value="borrowed">已借出</option>
+                    <option value="reserved">待取用</option>
                 </select>
                 <select id="categoryFilter">
                     <option value="">全部分类</option>
@@ -39,6 +48,7 @@
 
         <section class="tabs">
             <button class="tab active" data-tab="tools">🧰 工具大厅</button>
+            <button class="tab" data-tab="reservations">🔖 我的预约</button>
             <button class="tab" data-tab="orders">📋 借还记录</button>
         </section>
 
@@ -46,6 +56,13 @@
             <div id="toolsGrid" class="tools-grid"></div>
             <div id="emptyTools" class="empty-state" style="display:none;">
                 <p>暂无工具，点击右上角「发布工具」添加第一个吧！</p>
+            </div>
+        </section>
+
+        <section id="reservationsTab" class="tab-content">
+            <div id="reservationsList" class="orders-list"></div>
+            <div id="emptyReservations" class="empty-state" style="display:none;">
+                <p>暂无预约记录</p>
             </div>
         </section>
 
@@ -126,6 +143,27 @@
         </div>
     </div>
 
+    <div class="modal-overlay" id="reserveModal">
+        <div class="modal">
+            <div class="modal-header">
+                <h3>预约工具</h3>
+                <button class="close-btn" data-close="reserveModal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="borrow-info" id="reserveInfo"></div>
+                <div class="form-group">
+                    <label>预约人 *</label>
+                    <select id="reserveUserSelect"></select>
+                </div>
+                <p class="hint">预约后工具归还时将按排队顺序通知，轮到你时需及时取用。</p>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" data-close="reserveModal">取消</button>
+                <button class="btn btn-primary" id="submitReserve">确认预约</button>
+            </div>
+        </div>
+    </div>
+
     <div class="modal-overlay" id="userModal">
         <div class="modal">
             <div class="modal-header">
@@ -145,6 +183,18 @@
             <div class="modal-footer">
                 <button class="btn btn-secondary" data-close="userModal">取消</button>
                 <button class="btn btn-primary" id="submitUser">注册</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal-overlay" id="creditLogModal">
+        <div class="modal">
+            <div class="modal-header">
+                <h3>📊 信用分变动记录</h3>
+                <button class="close-btn" data-close="creditLogModal">&times;</button>
+            </div>
+            <div class="modal-body" id="creditLogBody">
+                <p style="text-align:center;color:#a0aec0;padding:20px;">加载中...</p>
             </div>
         </div>
     </div>
