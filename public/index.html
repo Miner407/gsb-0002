@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>邻里工具共享平台</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header class="header">
+        <div class="container">
+            <h1>🛠️ 邻里工具共享平台</h1>
+            <p class="subtitle">共享闲置工具，共建和谐社区</p>
+            <div class="current-user">
+                <label>当前身份：</label>
+                <select id="currentUserSelect">
+                    <option value="">请选择用户</option>
+                </select>
+                <button class="btn btn-small btn-outline" id="addUserBtn">+ 新用户</button>
+            </div>
+        </div>
+    </header>
+
+    <main class="container main">
+        <section class="toolbar">
+            <div class="filters">
+                <select id="statusFilter">
+                    <option value="">全部状态</option>
+                    <option value="available">可借用</option>
+                    <option value="borrowed">已借出</option>
+                </select>
+                <select id="categoryFilter">
+                    <option value="">全部分类</option>
+                </select>
+                <input type="text" id="searchInput" placeholder="搜索工具名称或描述...">
+            </div>
+            <button class="btn btn-primary" id="publishBtn">📢 发布工具</button>
+        </section>
+
+        <section class="tabs">
+            <button class="tab active" data-tab="tools">🧰 工具大厅</button>
+            <button class="tab" data-tab="orders">📋 借还记录</button>
+        </section>
+
+        <section id="toolsTab" class="tab-content active">
+            <div id="toolsGrid" class="tools-grid"></div>
+            <div id="emptyTools" class="empty-state" style="display:none;">
+                <p>暂无工具，点击右上角「发布工具」添加第一个吧！</p>
+            </div>
+        </section>
+
+        <section id="ordersTab" class="tab-content">
+            <div class="orders-header">
+                <select id="orderStatusFilter">
+                    <option value="">全部记录</option>
+                    <option value="borrowed">借用中</option>
+                    <option value="returned">已归还</option>
+                </select>
+            </div>
+            <div id="ordersList" class="orders-list"></div>
+            <div id="emptyOrders" class="empty-state" style="display:none;">
+                <p>暂无借还记录</p>
+            </div>
+        </section>
+    </main>
+
+    <div class="modal-overlay" id="publishModal">
+        <div class="modal">
+            <div class="modal-header">
+                <h3>发布新工具</h3>
+                <button class="close-btn" data-close="publishModal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label>工具名称 *</label>
+                    <input type="text" id="toolName" placeholder="如：电钻、梯子...">
+                </div>
+                <div class="form-group">
+                    <label>分类</label>
+                    <input type="text" id="toolCategory" placeholder="如：电动工具、手动工具...">
+                </div>
+                <div class="form-group">
+                    <label>详细描述</label>
+                    <textarea id="toolDesc" rows="3" placeholder="工具品牌、使用注意事项等..."></textarea>
+                </div>
+                <div class="form-group">
+                    <label>发布人 *</label>
+                    <select id="toolOwner"></select>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" data-close="publishModal">取消</button>
+                <button class="btn btn-primary" id="submitPublish">确认发布</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal-overlay" id="detailModal">
+        <div class="modal modal-lg">
+            <div class="modal-header">
+                <h3 id="detailTitle">工具详情</h3>
+                <button class="close-btn" data-close="detailModal">&times;</button>
+            </div>
+            <div class="modal-body" id="detailBody"></div>
+        </div>
+    </div>
+
+    <div class="modal-overlay" id="borrowModal">
+        <div class="modal">
+            <div class="modal-header">
+                <h3>申请借用</h3>
+                <button class="close-btn" data-close="borrowModal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="borrow-info" id="borrowInfo"></div>
+                <div class="form-group">
+                    <label>借用人 *</label>
+                    <select id="borrowerSelect"></select>
+                </div>
+                <p class="hint">借用后请妥善保管，及时归还。</p>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" data-close="borrowModal">取消</button>
+                <button class="btn btn-primary" id="submitBorrow">确认借用</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal-overlay" id="userModal">
+        <div class="modal">
+            <div class="modal-header">
+                <h3>注册新用户</h3>
+                <button class="close-btn" data-close="userModal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label>姓名 *</label>
+                    <input type="text" id="newUserName" placeholder="请输入姓名">
+                </div>
+                <div class="form-group">
+                    <label>联系电话</label>
+                    <input type="text" id="newUserPhone" placeholder="选填">
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" data-close="userModal">取消</button>
+                <button class="btn btn-primary" id="submitUser">注册</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="toast" class="toast"></div>
+
+    <script src="app.js"></script>
+</body>
+</html>
